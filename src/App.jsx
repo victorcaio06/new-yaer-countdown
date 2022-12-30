@@ -1,34 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import './App.css';
+
+import Title from './components/Title';
+import Counter from './components/Counter';
+import useCountdown from './hooks/useCountdown';
+
+import ImgNewYear from './assets/newYear.jpg';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [day, hour, minute, second] = useCountdown('jan 1, 2023 00:00:00');
+
+  const twoDigits = (number) => {
+    if (number < 10) {
+      return '0' + number;
+    } else {
+      return number;
+    }
+  };
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="App" style={{ backgroundImage: `url(${ImgNewYear})` }}>
+      <div className="container">
+        <Title title="Contagem regressiva para 2023" />
+        <div className="countdown-container">
+          <Counter title="Dias" number={twoDigits(day)} />
+          <p>:</p>
+          <Counter title="Horas" number={twoDigits(hour)} />
+          <p>:</p>
+          <Counter title="Minutos" number={twoDigits(minute)} />
+          <p>:</p>
+          <Counter title="Segundos" number={twoDigits(second)} />
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
